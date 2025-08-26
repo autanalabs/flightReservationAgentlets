@@ -1,0 +1,226 @@
+{
+  "manifestVersion": "1.1.0",
+  "name": "Buscar vuelos",
+  "version": "0.1.0",
+  "groupId": "com.autanalabs",
+  "artifactId": "flight-reservation",
+  "tagName": "flight-search",
+  "iconURL": "icon.png",
+  "description": "Agentlet para capturar y validar criterios de búsqueda de vuelos y sincronizarlos con la conversación.",
+  "behavior_prompt": [
+    "Este agentlet actúa como fuente de verdad de los filtros de búsqueda de vuelos.",
+    "Debe mostrar y permitir editar: origen, destino, tipo de viaje (ida o ida y vuelta), ",
+    "fechas (departureDate y returnDate si aplica), cantidad de pasajeros (adults, children, infants), ",
+    "clase (economy, premium_economy, business, first), nonStopOnly, preferredAirlines, timeWindows ",
+    "(depEarliest, depLatest, retEarliest, retLatest) y currency. Debe exponer tools para actualizar ",
+    "campos individuales o múltiples, desplazar fechas, fijar pasajeros, reiniciar a valores por defecto, ",
+    "recuperar estado completo y solicitar al Shell que muestre otro agentlet para resultados. ",
+    "Toda actualización debe validar formato y coherencia (p. ej. departureDate <= returnDate cuando sea roundtrip). ",
+    "Debe enviar feedback visual inmediato y emitir eventos al Shell cada vez que el estado cambie."
+  ],
+  "tools": [
+    {
+      "name": "agentlet_setSearchCriteria",
+      "description": "Actualiza múltiples criterios de búsqueda de vuelos en una sola llamada.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "origin": {
+            "type": "string",
+            "description": "Ciudad/aeropuerto de salida (IATA o texto)"
+          },
+          "destination": {
+            "type": "string",
+            "description": "Ciudad/aeropuerto de llegada"
+          },
+          "departureDate": {
+            "type": "string",
+            "description": "YYYY-MM-DD",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "returnDate": {
+            "type": "string",
+            "description": "YYYY-MM-DD (opcional para roundtrip)",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "tripType": {
+            "type": "string",
+            "enum": [
+              "oneway",
+              "roundtrip"
+            ]
+          },
+          "cabinClass": {
+            "type": "string",
+            "enum": [
+              "economy",
+              "premium_economy",
+              "business",
+              "first"
+            ]
+          },
+          "passengers": {
+            "type": "object",
+            "properties": {
+              "adults": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9
+              },
+              "children": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9
+              },
+              "infants": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9
+              }
+            }
+          },
+          "nonStopOnly": {
+            "type": "boolean"
+          },
+          "preferredAirlines": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "timeWindows": {
+            "type": "object",
+            "properties": {
+              "depEarliest": {
+                "type": "string",
+                "description": "HH:MM"
+              },
+              "depLatest": {
+                "type": "string",
+                "description": "HH:MM"
+              },
+              "retEarliest": {
+                "type": "string",
+                "description": "HH:MM"
+              },
+              "retLatest": {
+                "type": "string",
+                "description": "HH:MM"
+              }
+            }
+          },
+          "currency": {
+            "type": "string",
+            "description": "Código ISO 4217"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "agentlet_updateField",
+      "description": "Actualiza un solo campo (atajo para cambios simples).",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "type": "string",
+            "enum": [
+              "origin",
+              "destination",
+              "departureDate",
+              "returnDate",
+              "tripType",
+              "cabinClass",
+              "nonStopOnly",
+              "currency"
+            ]
+          },
+          "value": {}
+        },
+        "required": [
+          "field",
+          "value"
+        ]
+      }
+    },
+    {
+      "name": "agentlet_shiftDates",
+      "description": "Desplaza departure/return en días (positivo/negativo).",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "days": {
+            "type": "integer",
+            "minimum": -365,
+            "maximum": 365
+          }
+        },
+        "required": [
+          "days"
+        ]
+      }
+    },
+    {
+      "name": "agentlet_setPassengers",
+      "description": "Define pasajeros (adults obligatorio).",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "adults": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9
+          },
+          "children": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9
+          },
+          "infants": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9
+          }
+        },
+        "required": [
+          "adults"
+        ]
+      }
+    },
+    {
+      "name": "agentlet_showAgentlet",
+      "description": "Pide al Shell mostrar otro agentlet con el estado actual (ej. resultados).",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "agentletName": {
+            "type": "string",
+            "description": "Nombre del agentlet a mostrar"
+          },
+          "state": {
+            "type": "object",
+            "properties": {},
+            "description": "Estado completo de los criterios."
+          }
+        }
+      }
+    },
+    {
+      "name": "agentlet_getState",
+      "description": "Devuelve el estado completo de los criterios.",
+      "parameters": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "agentlet_reset",
+      "description": "Reinicia los criterios a valores por defecto (hoy+7 ida, hoy+14 vuelta, 1 adulto, economy, roundtrip).",
+      "parameters": {
+        "type": "object",
+        "properties": {}
+      }
+    }
+  ]
+}

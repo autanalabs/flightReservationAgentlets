@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Demo – Itinerary Preview Agentlet</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 40px; }
+    .wrap { display: grid; gap: 16px; justify-content: center; }
+    .frame { padding: 18px; border: 2px solid #e5e7eb; border-radius: 12px; background: #fff; box-shadow: 0 8px 30px rgba(0,0,0,0.07); }
+    .tools { display: grid; gap: 8px; grid-template-columns: repeat(2, minmax(260px, 360px)); }
+    .tools fieldset { border: 1px solid #e5e7eb; border-radius: 10px; padding: 10px 12px; }
+    .log { background:#f9fafb; border:1px solid #e5e7eb; border-radius: 10px; padding: 10px; }
+    input, select { width: 100%; padding: 6px 8px; border:1px solid #d1d5db; border-radius:8px; }
+    button { padding:8px 10px; border:1px solid #d1d5db; border-radius:8px; background:#f3f4f6; cursor:pointer; }
+    button:hover { background:#e5e7eb; }
+  </style>
+
+  <script>
+    window.agentlet_shell = {
+      registerAgentlet: (manifest) => console.log("registerAgentlet:", manifest),
+      sendMessageToShell: (msg) => {
+        const { message } = JSON.parse(msg);
+        const ul = document.getElementById('msgs');
+        const li = document.createElement('li');
+        li.textContent = message;
+        ul.appendChild(li);
+      }
+    };
+  </script>
+
+  <script type="module">
+    import { Agentlet } from '../lib/agentlet-1.0.0.js';
+    import './agentlet.js';
+
+    // Montaje dinámico con tagName normalizado【19】【25】
+    const micro = {
+      manifestVersion: "1.1.0-mini",
+      name: "Flight Search",
+      version: "0.1.0",
+      groupId: "com.autanalabs",
+      artifactId: "flight-reservation",
+      tagName: "flight-search"
+    };
+    const normalized = Agentlet.buildNormalizedTagName(micro);
+    const mount = document.getElementById('mount');
+    const el = document.createElement(normalized);
+    mount.appendChild(el);
+
+    // Exponer para los botones de simulación
+    window._agentlet = el;
+
+    // Helpers de demo
+    const val = (id) => document.getElementById(id).value;
+    window.sim_setItinerary = () => {
+      el.onToolCall('agentlet_setItinerary', {
+        origin: val('o'), destination: val('d'),
+        startDate: val('sd'), endDate: val('ed'),
+        cabinClass: val('cc'),
+        passengers: {
+          adults: Number(val('pa')||1),
+          children: Number(val('pc')||0),
+          infants: Number(val('pi')||0)
+        }
+      });
+    };
+    window.sim_shift = (n) => el.onToolCall('agentlet_shiftDates', { deltaDays: n });
+    window.sim_pax = () => el.onToolCall('agentlet_setPassengers', {
+      adults: Number(val('pa')||1),
+      children: Number(val('pc')||0),
+      infants: Number(val('pi')||0)
+    });
+    window.sim_class = () => el.onToolCall('agentlet_setClass', { cabinClass: val('cc') });
+    window.sim_state = async () => {
+      const res = await el.onToolCall('agentlet_getState', {});
+      alert(JSON.stringify(res.response, null, 2));
+    };
+    window.sim_reset = () => el.onToolCall('agentlet_reset', {});
+  </script>
+</head>
+<body>
+  <div class="wrap">
+    <h1>✈ Itinerary Preview – Demo</h1>
+
+    <div class="frame" id="mount"></div>
+
+    <section class="tools">
+      <fieldset>
+        <legend>Set Itinerary</legend>
+        <label>Origen <input id="o" placeholder="Buenos Aires"></label><br><br>
+        <label>Destino <input id="d" placeholder="Madrid"></label><br><br>
+        <label>Ida (YYYY-MM-DD) <input id="sd" placeholder="2025-09-15"></label><br><br>
+        <label>Vuelta (YYYY-MM-DD) <input id="ed" placeholder="2025-09-30"></label><br><br>
+        <label>Clase
+          <select id="cc">
+            <option value="economy">Económica</option>
+            <option value="premium_economy">Premium Económica</option>
+            <option value="business">Business</option>
+            <option value="first">First</option>
+          </select>
+        </label><br><br>
+        <div style="display:flex; gap:6px;">
+          <label>Adultos <input id="pa" type="number" min="1" max="9" value="1"></label>
+          <label>Niños <input id="pc" type="number" min="0" max="9" value="0"></label>
+          <label>Bebés <input id="pi" type="number" min="0" max="9" value="0"></label>
+        </div><br>
+        <button onclick="sim_setItinerary()">agentlet_setItinerary</button>
+        <button onclick="sim_reset()">agentlet_reset</button>
+      </fieldset>
+
+      <fieldset>
+        <legend>Otras acciones</legend>
+        <div style="display:flex; gap:6px; align-items:center;">
+          <button onclick="sim_shift(-7)">agentlet_shiftDates −7d</button>
+          <button onclick="sim_shift(7)">agentlet_shiftDates +7d</button>
+          <button onclick="sim_pax()">agentlet_setPassengers</button>
+          <button onclick="sim_class()">agentlet_setClass</button>
+          <button onclick="sim_state()">agentlet_getState</button>
+        </div>
+      </fieldset>
+
+      <fieldset style="grid-column: 1 / -1;">
+        <legend>📨 Mensajes enviados al Shell</legend>
+        <ul class="log" id="msgs"></ul>
+      </fieldset>
+    </section>
+  </div>
+</body>
+</html>
