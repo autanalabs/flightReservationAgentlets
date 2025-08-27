@@ -32,6 +32,13 @@ class FlightSearchAgentlet extends Agentlet {
     }));
   }
 
+  _highlightField(id) {
+    const el = this.shadowRoot.getElementById(id);
+    if (!el) return;
+    el.classList.add('flash');
+    setTimeout(() => el.classList.remove('flash'), 500);
+  }
+
   onToolCall(toolName, params) {
     switch (toolName) {
       case 'agentlet_getState':
@@ -51,6 +58,18 @@ class FlightSearchAgentlet extends Agentlet {
           }
         };
         this.render();
+        if (params) {
+          if ('origin' in params) this._highlightField('origin');
+          if ('destination' in params) this._highlightField('destination');
+          if ('startDate' in params) this._highlightField('startDate');
+          if ('endDate' in params) this._highlightField('endDate');
+          if (params.passengers) {
+            if ('adults' in params.passengers) this._highlightField('adults');
+            if ('children' in params.passengers) this._highlightField('children');
+            if ('infants' in params.passengers) this._highlightField('infants');
+          }
+          if ('cabinClass' in params) this._highlightField('cabinClass');
+        }
         return {
           status: "OK",
           message: "Itinerario actualizado.",
@@ -62,6 +81,7 @@ class FlightSearchAgentlet extends Agentlet {
         if (field && field in this._state) {
           this._state[field] = value;
           this.render();
+          this._highlightField(field);
           return {
             status: "OK",
             message: `Campo ${field} actualizado.`,
@@ -89,6 +109,8 @@ class FlightSearchAgentlet extends Agentlet {
         if (this._state.startDate) this._state.startDate = shift(this._state.startDate);
         if (this._state.endDate) this._state.endDate = shift(this._state.endDate);
         this.render();
+        this._highlightField('startDate');
+        this._highlightField('endDate');
         return {
           status: "OK",
           message: `Fechas desplazadas ${deltaDays} días.`,
@@ -101,6 +123,9 @@ class FlightSearchAgentlet extends Agentlet {
           ...(params || {})
         };
         this.render();
+        this._highlightField('adults');
+        this._highlightField('children');
+        this._highlightField('infants');
         return {
           status: "OK",
           message: "Pasajeros actualizados.",
@@ -111,6 +136,7 @@ class FlightSearchAgentlet extends Agentlet {
         if (params && typeof params.cabinClass === 'string') {
           this._state.cabinClass = params.cabinClass;
           this.render();
+          this._highlightField('cabinClass');
           return {
             status: "OK",
             message: "Clase actualizada.",
@@ -132,6 +158,14 @@ class FlightSearchAgentlet extends Agentlet {
           cabinClass: "economy"
         };
         this.render();
+        this._highlightField('origin');
+        this._highlightField('destination');
+        this._highlightField('startDate');
+        this._highlightField('endDate');
+        this._highlightField('adults');
+        this._highlightField('children');
+        this._highlightField('infants');
+        this._highlightField('cabinClass');
         return {
           status: "OK",
           message: "Estado reiniciado.",
@@ -165,6 +199,10 @@ class FlightSearchAgentlet extends Agentlet {
         .col { flex: 1; }
         .section { border: 1px solid #eee; padding: 12px; border-radius: 8px; margin-bottom: 12px; }
         .section h3 { margin-top: 0; font-size: 16px; }
+        .flash {
+          background-color: #fff8b3 !important;
+          transition: background-color 0.5s ease-out;
+        }
       </style>
       <div class="section">
         <h3>Itinerario</h3>
