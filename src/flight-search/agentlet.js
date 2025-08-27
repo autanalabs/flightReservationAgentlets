@@ -197,7 +197,7 @@ class FlightSearchAgentlet extends Agentlet {
         :host {
           display: block;
           font-family: sans-serif;
-          background: white;
+          background: transparent;
           padding: 24px;
           color: #111;
           /* max-width: 900px; */
