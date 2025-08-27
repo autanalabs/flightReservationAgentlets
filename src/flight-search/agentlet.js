@@ -212,14 +212,18 @@ class FlightSearchAgentlet extends Agentlet {
           padding: 24px;
         }
         .field { margin-bottom: 10px; }
-        label {
-          font-weight: 600;
-          display: block;
-          margin-bottom: 2px;
-          color: white;
-          font-size: 18px;
-          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-        }
+       label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 2px;
+  color: white;
+  font-size: 18px;
+  text-shadow:
+    -1px -1px 1px #000,
+     1px -1px 1px #000,
+    -1px  1px 1px #000,
+     1px  1px 1px #000;
+}
         input, select {
           width: 100%;
           padding: 10px 14px;
@@ -237,11 +241,15 @@ class FlightSearchAgentlet extends Agentlet {
         .col { flex: 1; }
         .section { border: 1px solid #eee; padding: 12px; border-radius: 8px; margin-bottom: 12px; }
         .section h3 {
-          margin-top: 0;
-          font-size: 18px;
-          color: white;
-          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-        }
+  margin-top: 0;
+  font-size: 18px;
+  color: white;
+  text-shadow:
+    -1px -1px 1px #000,
+     1px -1px 1px #000,
+    -1px  1px 1px #000,
+     1px  1px 1px #000;
+}
         .flash {
           background-color: #fff8b3 !important;
           transition: background-color 0.5s ease-out;
@@ -302,7 +310,7 @@ class FlightSearchAgentlet extends Agentlet {
               <input id="children" name="children" type="number" min="0" max="9" value="${s.passengers.children}" />
             </div>
             <div class="col field">
-              <label for="infants">Infantes</label>
+              <label for="infants">Bebes</label>
               <input id="infants" name="infants" type="number" min="0" max="9" value="${s.passengers.infants}" />
             </div>
           </div>
