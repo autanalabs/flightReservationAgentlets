@@ -232,7 +232,7 @@ class FlightSearchAgentlet extends Agentlet {
           border: 1px solid #ccc;
           border-radius: 12px;
           box-sizing: border-box;
-          transition: border 0.3s ease;
+          transition: background-color 1s ease-out;
         }
         input:focus, select:focus {
           outline: none;
@@ -253,7 +253,6 @@ class FlightSearchAgentlet extends Agentlet {
 }
         .flash {
           background-color: #fff8b3 !important;
-          transition: background-color 1s ease-out;
         }
         .footer {
           display: flex;
