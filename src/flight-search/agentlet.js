@@ -192,6 +192,7 @@ class FlightSearchAgentlet extends Agentlet {
 
   render() {
     const s = this._state;
+    const isComplete = s.origin && s.destination && s.startDate && s.endDate && s.cabinClass;
     this.shadowRoot.innerHTML = `
       <style>
         :host {
@@ -328,11 +329,13 @@ class FlightSearchAgentlet extends Agentlet {
             </select>
           </div>
         </div>
-        <div class="footer">
-          <button id="searchBtn">
-            🔍 Buscar
-          </button>
-        </div>
+        ${isComplete ? `
+          <div class="footer">
+            <button id="searchBtn">
+              🔍 Buscar
+            </button>
+          </div>
+        ` : ''}
       </div>
     `;
 
