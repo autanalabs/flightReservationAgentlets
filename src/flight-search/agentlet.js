@@ -194,12 +194,31 @@ class FlightSearchAgentlet extends Agentlet {
     const s = this._state;
     this.shadowRoot.innerHTML = `
       <style>
-        :host { display: block; font-family: sans-serif; background: white; padding: 12px; border-radius: 8px; color: #111; }
+        :host {
+          display: block;
+          font-family: sans-serif;
+          background: rgba(255,255,255,0.92) url('./images/bg-box.jpg') center center / cover no-repeat;
+          padding: 24px;
+          border-radius: 20px;
+          box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+          color: #111;
+          max-width: 900px;
+          margin: auto;
+        }
         .field { margin-bottom: 10px; }
         label { font-weight: 600; display: block; margin-bottom: 2px; }
         input, select {
-          width: 100%; padding: 6px; font-size: 14px;
-          border: 1px solid #ccc; border-radius: 6px;
+          width: 100%;
+          padding: 10px 14px;
+          font-size: 15px;
+          border: 1px solid #ccc;
+          border-radius: 12px;
+          box-sizing: border-box;
+          transition: border 0.3s ease;
+        }
+        input:focus, select:focus {
+          outline: none;
+          border-color: #00a4a5;
         }
         .row { display: flex; gap: 12px; }
         .col { flex: 1; }
