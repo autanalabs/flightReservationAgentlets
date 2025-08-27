@@ -1,5 +1,3 @@
-
-
 import { Agentlet } from '../lib/agentlet-1.0.0.js';
 
 class FlightSearchAgentlet extends Agentlet {
@@ -146,16 +144,92 @@ class FlightSearchAgentlet extends Agentlet {
   }
 
   render() {
+    const s = this._state;
     this.shadowRoot.innerHTML = `
       <style>
-        div {
-          font-family: sans-serif;
-          font-size: 16px;
-          padding: 12px;
+        :host { display: block; font-family: sans-serif; }
+        .field { margin-bottom: 10px; }
+        label { font-weight: 600; display: block; margin-bottom: 2px; }
+        input, select {
+          width: 100%; padding: 6px; font-size: 14px;
+          border: 1px solid #ccc; border-radius: 6px;
         }
+        .row { display: flex; gap: 12px; }
+        .col { flex: 1; }
+        .section { border: 1px solid #eee; padding: 12px; border-radius: 8px; margin-bottom: 12px; }
+        .section h3 { margin-top: 0; font-size: 16px; }
       </style>
-      <div>✈️ Agentlet de búsqueda de vuelos en construcción…</div>
+      <div class="section">
+        <h3>Itinerario</h3>
+        <div class="row">
+          <div class="col field">
+            <label for="origin">Origen</label>
+            <input id="origin" name="origin" value="${s.origin}" />
+          </div>
+          <div class="col field">
+            <label for="destination">Destino</label>
+            <input id="destination" name="destination" value="${s.destination}" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col field">
+            <label for="startDate">Ida</label>
+            <input id="startDate" name="startDate" type="date" value="${s.startDate}" />
+          </div>
+          <div class="col field">
+            <label for="endDate">Vuelta</label>
+            <input id="endDate" name="endDate" type="date" value="${s.endDate}" />
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>Pasajeros</h3>
+        <div class="row">
+          <div class="col field">
+            <label for="adults">Adultos</label>
+            <input id="adults" name="adults" type="number" min="1" max="9" value="${s.passengers.adults}" />
+          </div>
+          <div class="col field">
+            <label for="children">Niños</label>
+            <input id="children" name="children" type="number" min="0" max="9" value="${s.passengers.children}" />
+          </div>
+          <div class="col field">
+            <label for="infants">Infantes</label>
+            <input id="infants" name="infants" type="number" min="0" max="9" value="${s.passengers.infants}" />
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>Clase</h3>
+        <div class="field">
+          <label for="cabinClass">Clase</label>
+          <select id="cabinClass" name="cabinClass">
+            <option value="economy" ${s.cabinClass === 'economy' ? 'selected' : ''}>Económica</option>
+            <option value="premium_economy" ${s.cabinClass === 'premium_economy' ? 'selected' : ''}>Premium Económica</option>
+            <option value="business" ${s.cabinClass === 'business' ? 'selected' : ''}>Business</option>
+            <option value="first" ${s.cabinClass === 'first' ? 'selected' : ''}>Primera</option>
+          </select>
+        </div>
+      </div>
     `;
+
+    const bind = (id, fn) => {
+      const el = this.shadowRoot.getElementById(id);
+      if (el) el.addEventListener('input', fn);
+    };
+
+    bind('origin', e => { this._state.origin = e.target.value; this.render(); });
+    bind('destination', e => { this._state.destination = e.target.value; this.render(); });
+    bind('startDate', e => { this._state.startDate = e.target.value; this.render(); });
+    bind('endDate', e => { this._state.endDate = e.target.value; this.render(); });
+
+    bind('adults', e => { this._state.passengers.adults = Number(e.target.value); this.render(); });
+    bind('children', e => { this._state.passengers.children = Number(e.target.value); this.render(); });
+    bind('infants', e => { this._state.passengers.infants = Number(e.target.value); this.render(); });
+
+    bind('cabinClass', e => { this._state.cabinClass = e.target.value; this.render(); });
   }
 }
 
