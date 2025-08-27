@@ -4,7 +4,7 @@ class FlightSearchAgentlet extends Agentlet {
   static get agentletId() {
     return {
       manifestVersion: "1.1.0-mini",
-      name: "Flight Search",
+      name: "Buscar vuelos",
       version: "0.1.0",
       groupId: "com.autanalabs",
       artifactId: "flight-reservation",
