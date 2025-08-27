@@ -215,7 +215,7 @@ class FlightSearchAgentlet extends Agentlet {
        label {
   font-weight: 600;
   display: block;
-  margin-bottom: 2px;
+  margin-bottom: 8px;
   color: white;
   font-size: 18px;
   text-shadow:
@@ -317,9 +317,9 @@ class FlightSearchAgentlet extends Agentlet {
         </div>
 
         <div class="section">
-          <h3>Tipo de cabina</h3>
+          <h3>Clase</h3>
           <div class="field">
-            <label for="cabinClass">Clase</label>
+           
             <select id="cabinClass" name="cabinClass">
               <option value="economy" ${s.cabinClass === 'economy' ? 'selected' : ''}>Económica</option>
               <option value="premium_economy" ${s.cabinClass === 'premium_economy' ? 'selected' : ''}>Premium Económica</option>
