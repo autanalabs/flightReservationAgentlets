@@ -52,7 +52,8 @@
     // Helpers de demo
     const val = (id) => document.getElementById(id).value;
     window.sim_setItinerary = () => {
-      el.onToolCall('agentlet_setItinerary', {
+      const tool = 'agentlet_setItinerary';
+      const params = {
         origin: val('o'), destination: val('d'),
         startDate: val('sd'), endDate: val('ed'),
         cabinClass: val('cc'),
@@ -61,20 +62,42 @@
           children: Number(val('pc')||0),
           infants: Number(val('pi')||0)
         }
-      });
+      };
+      const response = el.onToolCall(tool, params);
+      console.log(`Tool called: ${tool}`, params, 'Response:', response);
     };
-    window.sim_shift = (n) => el.onToolCall('agentlet_shiftDates', { deltaDays: n });
-    window.sim_pax = () => el.onToolCall('agentlet_setPassengers', {
-      adults: Number(val('pa')||1),
-      children: Number(val('pc')||0),
-      infants: Number(val('pi')||0)
-    });
-    window.sim_class = () => el.onToolCall('agentlet_setClass', { cabinClass: val('cc') });
+    window.sim_shift = (n) => {
+      const tool = 'agentlet_shiftDates';
+      const params = { deltaDays: n };
+      const response = el.onToolCall(tool, params);
+      console.log(`Tool called: ${tool}`, params, 'Response:', response);
+    };
+    window.sim_pax = () => {
+      const tool = 'agentlet_setPassengers';
+      const params = {
+        adults: Number(val('pa')||1),
+        children: Number(val('pc')||0),
+        infants: Number(val('pi')||0)
+      };
+      const response = el.onToolCall(tool, params);
+      console.log(`Tool called: ${tool}`, params, 'Response:', response);
+    };
+    window.sim_class = () => {
+      const tool = 'agentlet_setClass';
+      const params = { cabinClass: val('cc') };
+      const response = el.onToolCall(tool, params);
+      console.log(`Tool called: ${tool}`, params, 'Response:', response);
+    };
     window.sim_state = async () => {
       const res = await el.onToolCall('agentlet_getState', {});
       alert(JSON.stringify(res.response, null, 2));
     };
-    window.sim_reset = () => el.onToolCall('agentlet_reset', {});
+    window.sim_reset = () => {
+      const tool = 'agentlet_reset';
+      const params = {};
+      const response = el.onToolCall(tool, params);
+      console.log(`Tool called: ${tool}`, params, 'Response:', response);
+    };
   </script>
 </head>
 <body>
