@@ -25,6 +25,13 @@ class FlightSearchAgentlet extends Agentlet {
     };
   }
 
+  _sendMessage(text) {
+    Agentlet.shell.sendMessageToShell(JSON.stringify({
+      type: 'message',
+      message: text
+    }));
+  }
+
   onToolCall(toolName, params) {
     switch (toolName) {
       case 'agentlet_getState':
@@ -220,16 +227,16 @@ class FlightSearchAgentlet extends Agentlet {
       if (el) el.addEventListener('input', fn);
     };
 
-    bind('origin', e => { this._state.origin = e.target.value; this.render(); });
-    bind('destination', e => { this._state.destination = e.target.value; this.render(); });
-    bind('startDate', e => { this._state.startDate = e.target.value; this.render(); });
-    bind('endDate', e => { this._state.endDate = e.target.value; this.render(); });
+    bind('origin', e => { this._state.origin = e.target.value; this.render(); this._sendMessage("Origen actualizado a " + this._state.origin); });
+    bind('destination', e => { this._state.destination = e.target.value; this.render(); this._sendMessage("Destino actualizado a " + this._state.destination); });
+    bind('startDate', e => { this._state.startDate = e.target.value; this.render(); this._sendMessage("Fecha de ida actualizada a " + this._state.startDate); });
+    bind('endDate', e => { this._state.endDate = e.target.value; this.render(); this._sendMessage("Fecha de vuelta actualizada a " + this._state.endDate); });
 
-    bind('adults', e => { this._state.passengers.adults = Number(e.target.value); this.render(); });
-    bind('children', e => { this._state.passengers.children = Number(e.target.value); this.render(); });
-    bind('infants', e => { this._state.passengers.infants = Number(e.target.value); this.render(); });
+    bind('adults', e => { this._state.passengers.adults = Number(e.target.value); this.render(); this._sendMessage("Adultos actualizados a " + this._state.passengers.adults); });
+    bind('children', e => { this._state.passengers.children = Number(e.target.value); this.render(); this._sendMessage("Niños actualizados a " + this._state.passengers.children); });
+    bind('infants', e => { this._state.passengers.infants = Number(e.target.value); this.render(); this._sendMessage("Infantes actualizados a " + this._state.passengers.infants); });
 
-    bind('cabinClass', e => { this._state.cabinClass = e.target.value; this.render(); });
+    bind('cabinClass', e => { this._state.cabinClass = e.target.value; this.render(); this._sendMessage("Clase actualizada a " + this._state.cabinClass); });
   }
 }
 
