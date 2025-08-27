@@ -228,6 +228,24 @@ class FlightSearchAgentlet extends Agentlet {
           background-color: #fff8b3 !important;
           transition: background-color 0.5s ease-out;
         }
+        .footer {
+          display: flex;
+          justify-content: flex-end;
+          margin-top: 16px;
+        }
+        .footer button {
+          background-color: #00a4a5;
+          color: white;
+          font-size: 15px;
+          padding: 10px 20px;
+          border: none;
+          border-radius: 12px;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+        }
+        .footer button:hover {
+          background-color: #008f90;
+        }
       </style>
       <div class="section">
         <h3>Itinerario</h3>
@@ -283,6 +301,11 @@ class FlightSearchAgentlet extends Agentlet {
           </select>
         </div>
       </div>
+      <div class="footer">
+        <button id="searchBtn">
+          🔍 Buscar
+        </button>
+      </div>
     `;
 
     let originTimer, destinationTimer;
@@ -328,6 +351,13 @@ class FlightSearchAgentlet extends Agentlet {
     bind('infants', e => { this._state.passengers.infants = Number(e.target.value); this.render(); this._sendMessage("Infantes actualizados a " + this._state.passengers.infants); });
 
     bind('cabinClass', e => { this._state.cabinClass = e.target.value; this.render(); this._sendMessage("Clase actualizada a " + this._state.cabinClass); });
+
+    const searchBtn = this.shadowRoot.getElementById('searchBtn');
+    if (searchBtn) {
+      searchBtn.addEventListener('click', () => {
+        this._sendMessage("El usuario desea realizar la búsqueda de vuelos");
+      });
+    }
   }
 }
 

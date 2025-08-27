@@ -17,6 +17,7 @@
     "Adicionalmente, El usuario puede solicitar desplazar  las fechas adelante o atras N dias.",
     "Adicionalmente, el usuario puede solicitar modificar solo la cantidad de pasajeros para lo cual vas a usar agentlet_setPassengers(objeto_pasajeros).",
     "Puedes obtene el estado completo de la busqueda de vuelos llamando a 'agentlet_getState()'.",
+    "Si el usuario solicita ejecutar la busqueda de vuelos, llama a la funcion agentlet_showAgentlet('itinerary_preview', estado).",
     "Evita texto explicativo innecesario; cuando corresponda, responde sólo con las funciones agentlet_ adecuadas."
   ],
   "tools": [
