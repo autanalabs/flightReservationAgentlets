@@ -197,13 +197,19 @@ class FlightSearchAgentlet extends Agentlet {
         :host {
           display: block;
           font-family: sans-serif;
-          background: rgba(255,255,255,0.92) url('images/bg-box.jpg') center center / cover no-repeat;
+          background: white;
           padding: 24px;
+          color: #111;
+          /* max-width: 900px; */
+          /* margin: auto; */
+          transform: scale(0.75);
+          transform-origin: top left;
+        }
+        .container {
+          background: rgba(255,255,255,0.92) url('https://almundo-com-res.cloudinary.com/image/upload/v1756089522/BANCO%20DE%20IMAGENES%202019/TRAVEL_2025_-_HOME_HEADER_-_VUELOS.jpg') center center / cover no-repeat;
           border-radius: 20px;
           box-shadow: 0 4px 24px rgba(0,0,0,0.1);
-          color: #111;
-          max-width: 900px;
-          margin: auto;
+          padding: 24px;
         }
         .field { margin-bottom: 10px; }
         label { font-weight: 600; display: block; margin-bottom: 2px; }
@@ -247,64 +253,66 @@ class FlightSearchAgentlet extends Agentlet {
           background-color: #008f90;
         }
       </style>
-      <div class="section">
-        <h3>Itinerario</h3>
-        <div class="row">
-          <div class="col field">
-            <label for="origin">Origen</label>
-            <input id="origin" name="origin" value="${s.origin}" />
+      <div class="container">
+        <div class="section">
+          <h3>Itinerario</h3>
+          <div class="row">
+            <div class="col field">
+              <label for="origin">Origen</label>
+              <input id="origin" name="origin" value="${s.origin}" />
+            </div>
+            <div class="col field">
+              <label for="destination">Destino</label>
+              <input id="destination" name="destination" value="${s.destination}" />
+            </div>
           </div>
-          <div class="col field">
-            <label for="destination">Destino</label>
-            <input id="destination" name="destination" value="${s.destination}" />
+          <div class="row">
+            <div class="col field">
+              <label for="startDate">Ida</label>
+              <input id="startDate" name="startDate" type="date" value="${s.startDate}" />
+            </div>
+            <div class="col field">
+              <label for="endDate">Vuelta</label>
+              <input id="endDate" name="endDate" type="date" value="${s.endDate}" />
+            </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col field">
-            <label for="startDate">Ida</label>
-            <input id="startDate" name="startDate" type="date" value="${s.startDate}" />
-          </div>
-          <div class="col field">
-            <label for="endDate">Vuelta</label>
-            <input id="endDate" name="endDate" type="date" value="${s.endDate}" />
-          </div>
-        </div>
-      </div>
 
-      <div class="section">
-        <h3>Pasajeros</h3>
-        <div class="row">
-          <div class="col field">
-            <label for="adults">Adultos</label>
-            <input id="adults" name="adults" type="number" min="1" max="9" value="${s.passengers.adults}" />
-          </div>
-          <div class="col field">
-            <label for="children">Niños</label>
-            <input id="children" name="children" type="number" min="0" max="9" value="${s.passengers.children}" />
-          </div>
-          <div class="col field">
-            <label for="infants">Infantes</label>
-            <input id="infants" name="infants" type="number" min="0" max="9" value="${s.passengers.infants}" />
+        <div class="section">
+          <h3>Pasajeros</h3>
+          <div class="row">
+            <div class="col field">
+              <label for="adults">Adultos</label>
+              <input id="adults" name="adults" type="number" min="1" max="9" value="${s.passengers.adults}" />
+            </div>
+            <div class="col field">
+              <label for="children">Niños</label>
+              <input id="children" name="children" type="number" min="0" max="9" value="${s.passengers.children}" />
+            </div>
+            <div class="col field">
+              <label for="infants">Infantes</label>
+              <input id="infants" name="infants" type="number" min="0" max="9" value="${s.passengers.infants}" />
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="section">
-        <h3>Tipo de cabina</h3>
-        <div class="field">
-          <label for="cabinClass">Clase</label>
-          <select id="cabinClass" name="cabinClass">
-            <option value="economy" ${s.cabinClass === 'economy' ? 'selected' : ''}>Económica</option>
-            <option value="premium_economy" ${s.cabinClass === 'premium_economy' ? 'selected' : ''}>Premium Económica</option>
-            <option value="business" ${s.cabinClass === 'business' ? 'selected' : ''}>Business</option>
-            <option value="first" ${s.cabinClass === 'first' ? 'selected' : ''}>Primera</option>
-          </select>
+        <div class="section">
+          <h3>Tipo de cabina</h3>
+          <div class="field">
+            <label for="cabinClass">Clase</label>
+            <select id="cabinClass" name="cabinClass">
+              <option value="economy" ${s.cabinClass === 'economy' ? 'selected' : ''}>Económica</option>
+              <option value="premium_economy" ${s.cabinClass === 'premium_economy' ? 'selected' : ''}>Premium Económica</option>
+              <option value="business" ${s.cabinClass === 'business' ? 'selected' : ''}>Business</option>
+              <option value="first" ${s.cabinClass === 'first' ? 'selected' : ''}>Primera</option>
+            </select>
+          </div>
         </div>
-      </div>
-      <div class="footer">
-        <button id="searchBtn">
-          🔍 Buscar
-        </button>
+        <div class="footer">
+          <button id="searchBtn">
+            🔍 Buscar
+          </button>
+        </div>
       </div>
     `;
 
