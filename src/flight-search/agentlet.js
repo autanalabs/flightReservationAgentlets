@@ -41,6 +41,7 @@ class FlightSearchAgentlet extends Agentlet {
 
   onToolCall(toolName, params) {
     switch (toolName) {
+      case 'getState':
       case 'agentlet_getState':
         return {
           status: "OK",
@@ -48,6 +49,7 @@ class FlightSearchAgentlet extends Agentlet {
           response: this._state
         };
 
+      case 'setItinerary':
       case 'agentlet_setItinerary':
         this._state = {
           ...this._state,
@@ -76,6 +78,7 @@ class FlightSearchAgentlet extends Agentlet {
           response: this._state
         };
 
+      case 'updateField':
       case 'agentlet_updateField':
         const { field, value } = params || {};
         if (field && field in this._state) {
@@ -93,6 +96,7 @@ class FlightSearchAgentlet extends Agentlet {
           message: "Campo inválido o no especificado."
         };
 
+      case 'shiftDates':
       case 'agentlet_shiftDates':
         const { deltaDays } = params || {};
         if (typeof deltaDays !== 'number') {
@@ -117,6 +121,7 @@ class FlightSearchAgentlet extends Agentlet {
           response: this._state
         };
 
+      case 'setPassengers':
       case 'agentlet_setPassengers':
         this._state.passengers = {
           ...this._state.passengers,
@@ -132,6 +137,7 @@ class FlightSearchAgentlet extends Agentlet {
           response: this._state
         };
 
+      case 'setClass':
       case 'agentlet_setClass':
         if (params && typeof params.cabinClass === 'string') {
           this._state.cabinClass = params.cabinClass;

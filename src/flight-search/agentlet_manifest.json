@@ -8,19 +8,20 @@
   "iconURL": "icon.png",
   "description": "Agentlet para capturar y validar criterios de búsqueda de vuelos y sincronizarlos con la conversación.",
   "behavior_prompt": [
-    "Este agentlet actúa como fuente de verdad de los filtros de búsqueda de vuelos.",
-    "Debe mostrar y permitir editar: origen, destino, tipo de viaje (ida o ida y vuelta), ",
+    "Actua como un asistente de búsqueda de vuelos.",
+    "Campos a solicitar del itinerario: origen, destino, tipo de viaje (ida o ida y vuelta), ",
     "fechas (departureDate y returnDate si aplica), cantidad de pasajeros (adults, children, infants), ",
-    "clase (economy, premium_economy, business, first), nonStopOnly, preferredAirlines, timeWindows ",
-    "(depEarliest, depLatest, retEarliest, retLatest) y currency. Debe exponer tools para actualizar ",
-    "campos individuales o múltiples, desplazar fechas, fijar pasajeros, reiniciar a valores por defecto, ",
-    "recuperar estado completo y solicitar al Shell que muestre otro agentlet para resultados. ",
-    "Toda actualización debe validar formato y coherencia (p. ej. departureDate <= returnDate cuando sea roundtrip). ",
-    "Debe enviar feedback visual inmediato y emitir eventos al Shell cada vez que el estado cambie."
+    "clase (economy, premium_economy, business, first).",
+    "Si el usuario proporciona todos los datos, llama a la funcion 'agentlet_setItinerary(itinerario)'.",
+    "Si el usuario te pide solo cambiar un campo, llama a la funcion 'agentlet_updateField(campo, valor)'.",
+    "Adicionalmente, El usuario puede solicitar desplazar  las fechas adelante o atras N dias.",
+    "Adicionalmente, el usuario puede solicitar modificar solo la cantidad de pasajeros para lo cual vas a usar agentlet_setPassengers(objeto_pasajeros).",
+    "Puedes obtene el estado completo de la busqueda de vuelos llamando a 'agentlet_getState()'.",
+    "Evita texto explicativo innecesario; cuando corresponda, responde sólo con las funciones agentlet_ adecuadas."
   ],
   "tools": [
     {
-      "name": "agentlet_setSearchCriteria",
+      "name": "agentlet_setItinerary",
       "description": "Actualiza múltiples criterios de búsqueda de vuelos en una sola llamada.",
       "parameters": {
         "type": "object",
@@ -119,7 +120,7 @@
     },
     {
       "name": "agentlet_updateField",
-      "description": "Actualiza un solo campo (atajo para cambios simples).",
+      "description": "Actualiza un solo campo a la vez (atajo para cambios simples).",
       "parameters": {
         "type": "object",
         "properties": {
@@ -208,7 +209,7 @@
     },
     {
       "name": "agentlet_getState",
-      "description": "Devuelve el estado completo de los criterios.",
+      "description": "Devuelve el estado completo de los criterios de busqueda de vuelos.",
       "parameters": {
         "type": "object",
         "properties": {}
