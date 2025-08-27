@@ -98,16 +98,16 @@ class FlightSearchAgentlet extends Agentlet {
 
       case 'shiftDates':
       case 'agentlet_shiftDates':
-        const { deltaDays } = params || {};
-        if (typeof deltaDays !== 'number') {
+        const { days } = params || {};
+        if (typeof days !== 'number') {
           return {
             status: "ERROR",
-            message: "Parámetro deltaDays inválido."
+            message: "Parámetro days inválido."
           };
         }
         const shift = (dateStr) => {
           const d = new Date(dateStr);
-          d.setDate(d.getDate() + deltaDays);
+          d.setDate(d.getDate() + days);
           return d.toISOString().slice(0, 10);
         };
         if (this._state.startDate) this._state.startDate = shift(this._state.startDate);
@@ -117,7 +117,7 @@ class FlightSearchAgentlet extends Agentlet {
         this._highlightField('endDate');
         return {
           status: "OK",
-          message: `Fechas desplazadas ${deltaDays} días.`,
+          message: `Fechas desplazadas ${days} días.`,
           response: this._state
         };
 

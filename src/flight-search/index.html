@@ -68,7 +68,7 @@
     };
     window.sim_shift = (n) => {
       const tool = 'agentlet_shiftDates';
-      const params = { deltaDays: n };
+      const params = { days: n };
       const response = el.onToolCall(tool, params);
       console.log(`Tool called: ${tool}`, params, 'Response:', response);
     };
