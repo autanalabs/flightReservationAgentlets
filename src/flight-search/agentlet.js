@@ -188,7 +188,7 @@ class FlightSearchAgentlet extends Agentlet {
     const s = this._state;
     this.shadowRoot.innerHTML = `
       <style>
-        :host { display: block; font-family: sans-serif; }
+        :host { display: block; font-family: sans-serif; background: white; padding: 12px; border-radius: 8px; color: #111; }
         .field { margin-bottom: 10px; }
         label { font-weight: 600; display: block; margin-bottom: 2px; }
         input, select {
@@ -247,7 +247,7 @@ class FlightSearchAgentlet extends Agentlet {
       </div>
 
       <div class="section">
-        <h3>Clase</h3>
+        <h3>Tipo de cabina</h3>
         <div class="field">
           <label for="cabinClass">Clase</label>
           <select id="cabinClass" name="cabinClass">
