@@ -10,7 +10,7 @@
   "behavior_prompt": [
     "Actua como un asistente de búsqueda de vuelos.",
     "Campos a solicitar del itinerario: origen, destino, tipo de viaje (ida o ida y vuelta), ",
-    "fechas (departureDate y returnDate si aplica), cantidad de pasajeros (adults, children, infants), ",
+    "fechas (startDate y endDate si aplica), cantidad de pasajeros (adults, children, infants), ",
     "clase (economy, premium_economy, business, first).",
     "Si el usuario proporciona todos los datos, llama a la funcion 'agentlet_setItinerary(itinerario)'.",
     "Si el usuario te pide solo cambiar un campo, llama a la funcion 'agentlet_updateField(campo, valor)'.",
@@ -34,12 +34,12 @@
             "type": "string",
             "description": "Ciudad/aeropuerto de llegada"
           },
-          "departureDate": {
+          "startDate": {
             "type": "string",
             "description": "YYYY-MM-DD",
             "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
           },
-          "returnDate": {
+          "endDate": {
             "type": "string",
             "description": "YYYY-MM-DD (opcional para roundtrip)",
             "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
@@ -129,8 +129,8 @@
             "enum": [
               "origin",
               "destination",
-              "departureDate",
-              "returnDate",
+              "startDate",
+              "endDate",
               "tripType",
               "cabinClass",
               "nonStopOnly",
