@@ -212,7 +212,14 @@ class FlightSearchAgentlet extends Agentlet {
           padding: 24px;
         }
         .field { margin-bottom: 10px; }
-        label { font-weight: 600; display: block; margin-bottom: 2px; }
+        label {
+          font-weight: 600;
+          display: block;
+          margin-bottom: 2px;
+          color: white;
+          font-size: 18px;
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
         input, select {
           width: 100%;
           padding: 10px 14px;
@@ -229,7 +236,12 @@ class FlightSearchAgentlet extends Agentlet {
         .row { display: flex; gap: 12px; }
         .col { flex: 1; }
         .section { border: 1px solid #eee; padding: 12px; border-radius: 8px; margin-bottom: 12px; }
-        .section h3 { margin-top: 0; font-size: 16px; }
+        .section h3 {
+          margin-top: 0;
+          font-size: 18px;
+          color: white;
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
         .flash {
           background-color: #fff8b3 !important;
           transition: background-color 0.5s ease-out;
