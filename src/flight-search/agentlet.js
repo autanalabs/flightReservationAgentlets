@@ -222,13 +222,41 @@ class FlightSearchAgentlet extends Agentlet {
       </div>
     `;
 
+    let originTimer, destinationTimer;
+    let lastOrigin = this._state.origin;
+    let lastDestination = this._state.destination;
+
     const bind = (id, fn) => {
       const el = this.shadowRoot.getElementById(id);
       if (el) el.addEventListener('input', fn);
     };
 
-    bind('origin', e => { this._state.origin = e.target.value; this.render(); this._sendMessage("Origen actualizado a " + this._state.origin); });
-    bind('destination', e => { this._state.destination = e.target.value; this.render(); this._sendMessage("Destino actualizado a " + this._state.destination); });
+    bind('origin', e => {
+      const newVal = e.target.value;
+      this._state.origin = newVal;
+      //this.render();
+      clearTimeout(originTimer);
+      originTimer = setTimeout(() => {
+        if (lastOrigin !== newVal) {
+          this._sendMessage("Origen actualizado a " + newVal);
+          lastOrigin = newVal;
+        }
+      }, 600);
+    });
+
+    bind('destination', e => {
+      const newVal = e.target.value;
+      this._state.destination = newVal;
+      //this.render();
+      clearTimeout(destinationTimer);
+      destinationTimer = setTimeout(() => {
+        if (lastDestination !== newVal) {
+          this._sendMessage("Destino actualizado a " + newVal);
+          lastDestination = newVal;
+        }
+      }, 600);
+    });
+
     bind('startDate', e => { this._state.startDate = e.target.value; this.render(); this._sendMessage("Fecha de ida actualizada a " + this._state.startDate); });
     bind('endDate', e => { this._state.endDate = e.target.value; this.render(); this._sendMessage("Fecha de vuelta actualizada a " + this._state.endDate); });
 
