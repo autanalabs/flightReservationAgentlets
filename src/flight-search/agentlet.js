@@ -36,7 +36,7 @@ class FlightSearchAgentlet extends Agentlet {
     const el = this.shadowRoot.getElementById(id);
     if (!el) return;
     el.classList.add('flash');
-    setTimeout(() => el.classList.remove('flash'), 500);
+    setTimeout(() => el.classList.remove('flash'), 1500);
   }
 
   onToolCall(toolName, params) {
@@ -253,7 +253,7 @@ class FlightSearchAgentlet extends Agentlet {
 }
         .flash {
           background-color: #fff8b3 !important;
-          transition: background-color 0.5s ease-out;
+          transition: background-color 1s ease-out;
         }
         .footer {
           display: flex;
