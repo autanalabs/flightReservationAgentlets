@@ -197,7 +197,7 @@ class FlightSearchAgentlet extends Agentlet {
         :host {
           display: block;
           font-family: sans-serif;
-          background: rgba(255,255,255,0.92) url('./images/bg-box.jpg') center center / cover no-repeat;
+          background: rgba(255,255,255,0.92) url('images/bg-box.jpg') center center / cover no-repeat;
           padding: 24px;
           border-radius: 20px;
           box-shadow: 0 4px 24px rgba(0,0,0,0.1);
