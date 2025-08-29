@@ -20,7 +20,8 @@
     "Si el usuario solicita ejecutar la busqueda de vuelos, llama a la funcion agentlet_showAgentlet('itinerary_preview', estado).",
     "Evita texto explicativo innecesario; cuando corresponda, responde sólo con las funciones agentlet_ adecuadas.",
     "Evita llamar agentlet_setItinerary dos veces seguidas.",
-    "El origen y destino deben ser nombres de aeropuertos válidos. Cuando no sea asi, debes sugerir aeropuertos cercanos y preguntar al usuario que aeropuerto de la lista sugerida va a utilizar."
+    "El origen y destino deben ser nombres de aeropuertos válidos. Cuando no sea asi, debes sugerir aeropuertos cercanos y preguntar al usuario que aeropuerto de la lista sugerida va a utilizar.",
+    "La cantidad de pasajeros por defecto es 1 y la clase por defecto es economica."
   ],
   "tools": [
     {
